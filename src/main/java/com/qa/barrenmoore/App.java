@@ -7,22 +7,25 @@ import java.util.Random;
 
 public class App
 {
-    // grid 3 by 3
-    private static int x = Constants.two;
-    private static int y = Constants.two;
 
-    private static int treasureX;
-    private static int treasureY;
+    private static Coordinate grid;
+
+    private static Coordinate treasure;
 
     private static boolean exit = false;
 
     public static void main( String[] args ) throws IOException
     {
         placeTreasure();
+        initializeGrid();
         while (!exit){
             initialMessages();
             dealWithUserInput();
         }
+    }
+
+    private static void initializeGrid(){
+        grid = new Coordinate(Constants.two, Constants.two);
     }
 
     private static void dealWithUserInput() throws IOException {
@@ -50,23 +53,23 @@ public class App
                 System.out.println(Constants.youAreMessage + distanceFromTreasure() + Constants.tilesAwayMessage);
                 break;
             case Constants.north:
-                if (x - Constants.one > Constants.zero) {
-                    x -= Constants.one;
+                if (grid.getX() - Constants.one > Constants.zero) {
+                    grid.setX(grid.getX() - Constants.one);
                 }
                 break;
             case Constants.south:
-                if (x + Constants.one <= Constants.three) {
-                    x += Constants.one;
+                if (grid.getX() + Constants.one <= Constants.three) {
+                    grid.setX(grid.getX() + Constants.one);
                 }
                 break;
             case Constants.east:
-                if (y + Constants.one <= Constants.three) {
-                    y += Constants.one;
+                if (grid.getY() + Constants.one <= Constants.three) {
+                    grid.setY(grid.getY() + Constants.one);
                 }
                 break;
             case Constants.west:
-                if (y - Constants.one > Constants.zero) {
-                    y -= Constants.one;
+                if (grid.getY() - Constants.one > Constants.zero) {
+                    grid.setY(grid.getY() - Constants.one);
                 }
                 break;
             default:
@@ -75,21 +78,20 @@ public class App
     }
 
     private static void printLocation(){
-        System.out.println(Constants.youAreAtMessage + x + Constants.yMessage + y);
+        System.out.println(Constants.youAreAtMessage + grid.getX() + Constants.yMessage + grid.getY());
     }
 
     private static void placeTreasure(){
         Random r = new Random();
-        treasureX = r.nextInt(Constants.four);
-        treasureY = r.nextInt(Constants.four);
+        treasure = new Coordinate(r.nextInt(Constants.four), r.nextInt(Constants.four));
     }
 
     private static int distanceFromTreasure(){
-        return Math.abs(((treasureX - x) + (treasureY -y)));
+        return Math.abs(((treasure.getX() - grid.getY()) + (treasure.getY() - grid.getY())));
     }
 
     private static void checkForTreasure(){
-        if (x == treasureX & y == treasureY){
+        if (grid.getX() == treasure.getX() & grid.getY() == treasure.getY()){
             System.out.println(Constants.treasureFoundMessage);
             exit = true;
         } else {
