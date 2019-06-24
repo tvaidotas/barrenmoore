@@ -8,61 +8,93 @@ import java.util.Random;
 public class App
 {
     // grid 3 by 3
-    private static int x = 2;
-    private static int y = 2;
+    private static int x = Constants.two;
+    private static int y = Constants.two;
 
     private static int treasureX;
     private static int treasureY;
 
+    private static boolean exit = false;
+
     public static void main( String[] args ) throws IOException
     {
-        boolean exit = false;
         placeTreasure();
         while (!exit){
-            System.out.println("Actions available: location, check, compass, east, west, north, south, exit");
-            System.out.println("Please type what would you like to do:");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            String userInput = reader.readLine();
-            if(userInput.toLowerCase().equals("location")){
+            initialMessages();
+            dealWithUserInput();
+        }
+    }
+
+    private static void dealWithUserInput() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        checkUserInput(reader.readLine().toLowerCase());
+    }
+
+    private static void initialMessages(){
+        System.out.println(Constants.actionsMessage);
+        System.out.println(Constants.userActionPromptMessage);
+    }
+
+    private static void checkUserInput(String userInput){
+        switch (userInput) {
+            case Constants.location:
                 printLocation();
-            } else if (userInput.toLowerCase().equals("exit")){
+                break;
+            case Constants.exit:
                 exit = true;
-            } else if (userInput.toLowerCase().equals("check")){
-                if (x == treasureX & y == treasureY){
-                    System.out.println("Congratulations! You've found the treasure!");
-                    exit = true;
-                } else {
-                    System.out.println("Nothing found");
+                break;
+            case Constants.check:
+                checkForTreasure();
+                break;
+            case Constants.compass:
+                System.out.println(Constants.youAreMessage + distanceFromTreasure() + Constants.tilesAwayMessage);
+                break;
+            case Constants.north:
+                if (x - Constants.one > Constants.zero) {
+                    x -= Constants.one;
                 }
-            } else if(userInput.toLowerCase().equals("compass")){
-                System.out.println("You are "+ Math.abs(((treasureX - x) + (treasureY -y)))+ " tiles away from the treasure");
-            } else if (userInput.toLowerCase().equals("north")){
-                if (x - 1 > 0) {
-                    x -= 1;
+                break;
+            case Constants.south:
+                if (x + Constants.one <= Constants.three) {
+                    x += Constants.one;
                 }
-            } else if (userInput.toLowerCase().equals("south")){
-                if (x + 1 <= 3) {
-                    x += 1;
+                break;
+            case Constants.east:
+                if (y + Constants.one <= Constants.three) {
+                    y += Constants.one;
                 }
-            } else if (userInput.toLowerCase().equals("east")){
-                if (y + 1 <= 3) {
-                    y += 1;
+                break;
+            case Constants.west:
+                if (y - Constants.one > Constants.zero) {
+                    y -= Constants.one;
                 }
-            } else if (userInput.toLowerCase().equals("west")){
-                if (y - 1 > 0) {
-                    y -= 1;
-                }
-            }
+                break;
+            default:
+                System.out.println(Constants.invalidCommandMessage);
         }
     }
 
     private static void printLocation(){
-        System.out.println("You are at x:" + x + ", y:" + y);
+        System.out.println(Constants.youAreAtMessage + x + Constants.yMessage + y);
     }
 
     private static void placeTreasure(){
         Random r = new Random();
-        treasureX = r.nextInt(4);
-        treasureY = r.nextInt(4);
+        treasureX = r.nextInt(Constants.four);
+        treasureY = r.nextInt(Constants.four);
     }
+
+    private static int distanceFromTreasure(){
+        return Math.abs(((treasureX - x) + (treasureY -y)));
+    }
+
+    private static void checkForTreasure(){
+        if (x == treasureX & y == treasureY){
+            System.out.println(Constants.treasureFoundMessage);
+            exit = true;
+        } else {
+            System.out.println(Constants.nothinFoundMessage);
+        }
+    }
+
 }
