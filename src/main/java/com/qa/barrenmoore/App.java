@@ -7,8 +7,11 @@ import java.io.InputStreamReader;
 public class App
 {
     // grid 3 by 3
-    private static int x =2;
-    private static int y =2;
+    private static int x = 2;
+    private static int y = 2;
+
+    private static int treasureX = 3;
+    private static int treasureY = 3;
 
     public static void main( String[] args ) throws IOException
     {
@@ -22,6 +25,11 @@ public class App
                 printLocation();
             } else if (userInput.toLowerCase().equals("exit")){
                 exit = true;
+            } else if (userInput.toLowerCase().equals("check")){
+                if (x == treasureX & y == treasureY){
+                    System.out.println("Congratulations! You've found the treasure!");
+                    exit = true;
+                }
             }
         }
     }
