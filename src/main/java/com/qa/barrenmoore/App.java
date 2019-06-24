@@ -10,7 +10,9 @@ public class App
     {
         boolean exit = false;
         while (!exit){
-
+            System.out.println("Actions available: location, check, east, west, north, south");
+            System.out.println("Please type what would you like to do:");
+            String userInput = System.console().readLine();
         }
     }
 
