@@ -30,6 +30,22 @@ public class App
                     System.out.println("Congratulations! You've found the treasure!");
                     exit = true;
                 }
+            } else if (userInput.toLowerCase().equals("north")){
+                if (x - 1 > 0) {
+                    x -= 1;
+                }
+            } else if (userInput.toLowerCase().equals("south")){
+                if (x + 1 <= 3) {
+                    x += 1;
+                }
+            } else if (userInput.toLowerCase().equals("east")){
+                if (y + 1 <= 3) {
+                    y += 1;
+                }
+            } else if (userInput.toLowerCase().equals("west")){
+                if (y - 1 > 0) {
+                    y -= 1;
+                }
             }
         }
     }
