@@ -20,6 +20,8 @@ public class App
             String userInput = reader.readLine();
             if(userInput.toLowerCase().equals("location")){
                 printLocation();
+            } else if (userInput.toLowerCase().equals("exit")){
+                exit = true;
             }
         }
     }
